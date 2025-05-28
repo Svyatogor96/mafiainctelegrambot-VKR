@@ -1,0 +1,1 @@
+alembic.exe upgrade head
