@@ -51,6 +51,7 @@ async def on_startup():
         BotCommand(command="/menu", description="Начальное меню"),
         BotCommand(command="/afisha", description="Расписание игр"),
         BotCommand(command="/profile", description="Профиль"),
+        BotCommand(command="/rules", description="Правила игры"),
         BotCommand(command="/help", description="Помощь")
     ]
     await MafiaBot.set_my_commands(commands=bot_commands, scope=BotCommandScopeDefault())
@@ -66,7 +67,7 @@ async def on_startup():
         await DB_RestoreGameStatusSwitcher(session=session, apscheduler=Scheduler)
 
 
-    await MafiaBot.send_message(chat_id=339947035, text=f'Бот бот запущен. Версия: {__version}\n'
+    await MafiaBot.send_message(chat_id=438204704, text=f'Бот бот запущен. Версия: {__version}\n'
                                                         f'aiogram v. {aiogram.__version__}\n'
                                                         f'aiogram api v. {aiogram.__api_version__}\npython {sys.version}\n'
                                                         f'sqlalchemy v. {sqlalchemy.__version__}\n'
@@ -77,7 +78,7 @@ async def on_shutdown():
     if GlobalSettings.LOGGING:
         logging.getLogger().warning('Бот останавливается.')
         logging.getLogger().warning('Бот остановлен.')
-        await MafiaBot.send_message(chat_id=339947035, text='Бот остановлен.')
+        await MafiaBot.send_message(chat_id=438204704, text='Бот остановлен.')
 
 
 async def StartBot() -> None:
@@ -87,14 +88,14 @@ async def StartBot() -> None:
                 message_str: str = ""
                 for line in f:
                     message_str += line
-                await MafiaBot.send_message(chat_id=339947035, text=message_str)
+                await MafiaBot.send_message(chat_id=438204704, text=message_str)
             os.remove("/opt/MafiaIncTelegramBot/update.info")
 
         if os.path.exists("/var/log/bot_updater.log"):
             with open("/var/log/bot_updater.log", encoding='utf8') as f:
                 for line in f:
                     message_str += line
-                await MafiaBot.send_message(chat_id=339947035, text=message_str)
+                await MafiaBot.send_message(chat_id=438204704, text=message_str)
 
     if GlobalSettings.LOGGING:
         logging.basicConfig(level=logging.DEBUG,

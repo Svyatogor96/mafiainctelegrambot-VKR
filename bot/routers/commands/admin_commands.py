@@ -20,7 +20,7 @@ if platform.system() == "Windows":
 
 
 async def DebugMessage(message: str) -> None:
-    await bot.bot.MafiaBot.send_message(chat_id=339947035, text=message)
+    await bot.bot.MafiaBot.send_message(chat_id=438204704, text=message)
 
 
 async def LoggedIn(state: FSMContext) -> bool:
@@ -50,7 +50,7 @@ async def GoToMainMenu(message: types.Message, message_text: str, state: FSMCont
         await message.answer(text=message_text, reply_markup=InlineKeyboard_Admin_Keyboard())
 
 
-@router.callback_query(UserCallback.filter(F.action == "ADMIN_LOG_IN"))
+@router.callback_query(UserCallback.filter(F.action.__eq__("ADMIN_LOG_IN")))
 async def LoginAdmin(callback: CallbackQuery,
                      callback_data: UserCallback,
                      state: FSMContext,
@@ -101,7 +101,7 @@ async def AdmProfile(message: types.Message, state: FSMContext) -> None:
     await GoToMainMenu(message=message, message_text="Основное меню ведущего игр.", state=state, edit=False)
 
 
-@router.callback_query(AdminCallback.filter(F.action == "CHOOSE_CITY_IN_LOGIN"))
+@router.callback_query(AdminCallback.filter(F.action.__eq__("CHOOSE_CITY_IN_LOGIN")))
 @flags.authorization(admin_only=True, su_only=False)
 async def AdminLogin_ChooseCity(callback: CallbackQuery,
                                 callback_data: AdminCallback,
@@ -117,7 +117,7 @@ async def AdminLogin_ChooseCity(callback: CallbackQuery,
     data["logged_in"] = True
     City: CCity = await Moderator.City
 
-    await state.set_data(data=data)
+    await state.update_data(data=data)
     await AdminMainMenu(chat_id=callback.message.chat.id, message_text=f"Вы вошли в панель ведущего игр в городе "
                                                                        f"{City.name}. Выберите действие.")
     try:

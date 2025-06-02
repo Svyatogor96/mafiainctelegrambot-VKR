@@ -931,7 +931,7 @@ async def DB_GetGamesOfModeratorAfterDate(session: AsyncSession, id_moderator: i
     return game_list
 
 
-async def DB_CheckSigned(session: AsyncSession, id_game: int, id_person: int) -> CNickname:
+async def DB_CheckSigned(session: AsyncSession, id_game: int, id_person: int) -> CNickname | None:
     query = (select(CNickname, CGame, CPerson, CPlayer).
              where(CPlayer.id_nickname == CNickname.id).
              where(CPlayer.id_game == CGame.id).

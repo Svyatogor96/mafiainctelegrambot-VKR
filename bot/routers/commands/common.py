@@ -61,7 +61,7 @@ async def Reset(message: types.Message, session: AsyncSession, state: FSMContext
     STR_NOW: str = NOW.strftime('%a, %Y-%m-%d %H:%M')
     str_state: str | None = await state.get_state()
     data = await state.get_data()
-    await bot.bot.MafiaBot.send_message(chat_id=339947035,
+    await bot.bot.MafiaBot.send_message(chat_id=438204704,
                                         text=f"[{STR_NOW}] Пользователь запросил команду сброса состояния\n"
                                              f"id: {ID}\n"
                                              f"state: {str_state}\n"
@@ -86,14 +86,14 @@ async def Reset(message: types.Message, session: AsyncSession, state: FSMContext
     await state.set_state(UserState.start)
     await state.set_data(data=data)
     str_state = await state.get_state()
-    await bot.bot.MafiaBot.send_message(chat_id=339947035,
+    await bot.bot.MafiaBot.send_message(chat_id=438204704,
                                         text=f"[{STR_NOW}] Загружено\ndate: {data}\n"
                                              f"state: {str_state}\n")
 
 
 @router.message(Command("log"))
 async def get_log(message: types.Message, session: AsyncSession, state: FSMContext) -> None:
-    UID: int = 339947035
+    UID: int = 438204704
     if message.from_user.id == UID:
         if platform.system() == "Linux":
             line_list: list[str] = []
@@ -107,7 +107,7 @@ async def get_log(message: types.Message, session: AsyncSession, state: FSMConte
 
 @router.message(Command("update"))
 async def get_log(message: types.Message, session: AsyncSession, state: FSMContext) -> None:
-    UID: int = 339947035
+    UID: int = 438204704
     if message.from_user.id == UID:
         if platform.system() == "Linux":
             Popen(['python3', '/opt/MafiaIncTelegramBot/elevator.py'], user='avkushnarenko')
@@ -115,7 +115,7 @@ async def get_log(message: types.Message, session: AsyncSession, state: FSMConte
 
 @router.message(Command("update_message"))
 async def get_log(message: types.Message, session: AsyncSession, state: FSMContext) -> None:
-    UID: int = 339947035
+    UID: int = 438204704
     if message.from_user.id == UID:
         query = select(CTelegram).where(CTelegram.telegram_id is not None)
         result = await session.execute(query)

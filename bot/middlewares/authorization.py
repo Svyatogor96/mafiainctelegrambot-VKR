@@ -109,7 +109,7 @@ class CSUAuthorizationMiddlewareMessage(BaseMiddleware):
         if authorization is not None:
             if authorization["su_only"]:
                 username: str = event.from_user.username
-                if username == "avkushnarenko" or username == "mafia_inc_boss":
+                if username == "avkushnarenko" or username == "mafia_inc_boss" or username == "shiro_96":
                     return await handler(event, data)
                 else:
                     await event.answer(text=f"Вы не Босс, извините. "
@@ -138,7 +138,7 @@ class CSUAuthorizationMiddlewareCallback(BaseMiddleware):
         if authorization is not None:
             if authorization["su_only"]:
                 username: str = event.from_user.username
-                if username == "avkushnarenko" or username == "mafia_inc_boss":
+                if username == "avkushnarenko" or username == "mafia_inc_boss" or username == "shiro_96":
                     return await handler(event, data)
                 else:
                     await event.message.answer(text=f"Вы не Босс, извините. "

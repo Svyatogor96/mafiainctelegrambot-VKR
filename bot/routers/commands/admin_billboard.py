@@ -25,7 +25,7 @@ if platform.system() == "Windows":
 
 
 async def DebugMessage(message: str) -> None:
-    await bot.bot.MafiaBot.send_message(chat_id=339947035, text=f"{__name__}:  {message}")
+    await bot.bot.MafiaBot.send_message(chat_id=438204704, text=f"{__name__}:  {message}")
 
 
 async def dict_to_string(state: FSMContext, Key: str) -> str | None:

@@ -1,3 +1,4 @@
+import asyncio
 from aiogram import Router, types, F, html
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
@@ -20,9 +21,14 @@ if platform.system() == "Windows":
 
 router = Router(name=__name__)
 
+# Объект блокировки.
+# Используем его для выполнения кода, который не должен выполняться несколько раз
+# 27.05.2025 Попытка решить проблему задвоенния записей на игру, предположительно из-за плохой связи
+# и поттупливания. Пользователи нажимают многократно кнопку, не получив реакцию
+lock = asyncio.Lock()
 
 async def DebugMessage(message: str) -> None:
-    await bot.bot.MafiaBot.send_message(chat_id=339947035, text=message)
+    await bot.bot.MafiaBot.send_message(chat_id=438204704, text=message)
 
 
 
@@ -477,9 +483,19 @@ async def NotifyModerator_PlayerSigned(session: AsyncSession, Nickname: CNicknam
 
 async def GameInfoAndSuggestion(chat_id: int, id_game: int, message_text: str, state: FSMContext,
                                 session: AsyncSession):
-    data = {"Записаться": UserCallback(action="USER_CHOOSE_NICK", key=id_game, id_game=id_game),
-            "Список игроков": UserCallback(action="PLAYER_LIST", key=id_game, id_game=id_game),
-            "В главное меню": UserCallback(action="MAIN_MENU")}
+    state_data = await state.get_data()
+    Nick: CNickname | None = None
+    if "id_person" in state_data:
+        id_person: int = int(state_data["id_person"])
+        Nick: CNickname | None = await DB_CheckSigned(session=session, id_game=id_game, id_person=id_person)
+    if Nick is not None:
+        data = {"Список игроков": UserCallback(action="PLAYER_LIST", key=id_game, id_game=id_game),
+                "В главное меню": UserCallback(action="MAIN_MENU")}
+        message_text = f"Вы записаны на эту игру как {Nick.name}\n" + message_text
+    else:
+        data = {"Записаться": UserCallback(action="USER_CHOOSE_NICK", key=id_game, id_game=id_game),
+                "Список игроков": UserCallback(action="PLAYER_LIST", key=id_game, id_game=id_game),
+                "В главное меню": UserCallback(action="MAIN_MENU")}
     kbm = IKBM_User_ByDict_UserCallbackData(callback_data_dict=data)
 
     Game: CGame | None = await session.get(CGame, id_game)
@@ -680,7 +696,7 @@ async def SignUpGame(callback: CallbackQuery, callback_data: UserCallback, state
     data = await state.get_data()
     if "id_game" not in data:
         await callback.message.answer(text="Внутренняя ошибка бота. Разработчик уведомлен.")
-        await bot.bot.MafiaBot.send_message(chat_id=339947035,
+        await bot.bot.MafiaBot.send_message(chat_id=438204704,
                                             text=f"Пользователь {callback.message.from_user.id}\n"
                                                  f"{__name__} async def SignUpGame\n"
                                                  f"{data}")
@@ -708,8 +724,9 @@ async def SignUpGame(callback: CallbackQuery, callback_data: UserCallback, state
             Amount = 4
 
     """ Формирование записи на игру в БД """
+    #async with lock:
     result, error, id_player = await DB_SignUpPlayer(session=session, id_game=id_game, id_nickname=id_nickname,
-                                                     Amount=Amount)
+                                                        Amount=Amount)
     if result:
         Nickname: CNickname | None = await session.get(CNickname, id_nickname)
         Player: CPlayer | None = await session.get(CPlayer, id_player)
@@ -719,8 +736,7 @@ async def SignUpGame(callback: CallbackQuery, callback_data: UserCallback, state
         # NOW = NowConvertFromServerDateTime(tz=City.tz)
         last_date: datetime = Game.start_date - timedelta(hours=6)
 
-        await DB_SchedulePayReminder(session=session, id_game=id_game, id_payment=Payments[0].id,
-                                     apscheduler=apscheduler)
+        await DB_SchedulePayReminder(session=session, id_game=id_game, id_payment=Payments[0].id,apscheduler=apscheduler)
         if Amount > 1:
             answer_str = (f"{Person.FormatName}, вы успешно записались на игру! Вместе с вами записано ещё "
                           f"{Amount - 1} игроков. Пока места за вами забронированы. Игру нужно оплатить не позднее, "
@@ -935,7 +951,7 @@ async def SelectPay(callback: CallbackQuery, callback_data: UserCallback,
         await GoToUserMainMenu(message=callback.message, message_text="У вас не записей на оплату.", state=state,
                                session=session, edit=True)
 
-@router.message(StateFilter(UserState.start, None))
+@router.message(StateFilter(UserState.start, None), ~F.text.startswith('/') )
 async def AnyMessageAnswer(message: types.Message, state: FSMContext, session: AsyncSession) -> None:
     message_text: str = message.text.lower()
     if 'привет' in message_text:
