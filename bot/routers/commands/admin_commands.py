@@ -8,7 +8,7 @@ from bot.keyboards.admin_keyboards import *
 from bot.states import AdminState, UserState
 
 from bot.middlewares import AuthorizationGetAdminPerson
-from database.database import *
+from backendapi.database import *
 import locale
 
 router = Router(name=__name__)

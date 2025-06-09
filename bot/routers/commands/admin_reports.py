@@ -14,7 +14,7 @@ from bot.callbacks.cb_registration import AdminCallback
 from .admin_commands import GoToMainMenu
 from bot.keyboards.admin_keyboards import *
 
-from database.database import *
+from backendapi.database import *
 
 router = Router(name=__name__)
 

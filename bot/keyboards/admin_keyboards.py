@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State
 from bot.callbacks import AdminCallback
-from database.database import *
+from backendapi.database import *
 
 
 def InlineKeyboard_Admin_Yes_No() -> InlineKeyboardMarkup:

@@ -12,7 +12,7 @@ import bot.bot
 from bot.keyboards.admin_keyboards import *
 from bot.states import AdminState
 from bot.callbacks import UserCallback
-from database.database import *
+from backendapi.database import *
 from .admin_commands import GoToMainMenu
 from bot.keyboards import IKBM_User_ByDict_UserCallbackData
 

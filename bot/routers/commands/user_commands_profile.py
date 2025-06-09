@@ -9,7 +9,7 @@ from aiogram.filters import Command, StateFilter
 from bot.callbacks import UserCallback
 from bot.keyboards import *
 from bot.states import UserState
-from database.database import *
+from backendapi.database import *
 
 if platform.system() == "Linux":
     locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')

@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 import bot.bot
 from bot.keyboards.su_admin_keyboards import *
 from bot.states import SUState
-from database.database import *
+from backendapi.database import *
 from bot.middlewares import UpdateAdmins
 
 import subprocess

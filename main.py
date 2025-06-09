@@ -1,6 +1,6 @@
 import asyncio
 from bot.bot import StartBot
-from database import init_first_data
+from backendapi import init_first_data
 
 
 async def main() -> None:

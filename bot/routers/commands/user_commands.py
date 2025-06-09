@@ -10,7 +10,7 @@ import bot.bot
 from bot.callbacks import UserCallback
 from bot.keyboards import *
 from bot.states import UserState
-from database.database import *
+from backendapi.database import *
 from bot.middlewares.authorization import PersonIsAdmin
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 

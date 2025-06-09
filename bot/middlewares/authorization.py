@@ -3,7 +3,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
-from database import async_session_factory, DB_GetAllModerators, CModerator, CPerson, CTelegram
+from backendapi import async_session_factory, DB_GetAllModerators, CModerator, CPerson, CTelegram
 
 ADMINS: dict[int, dict[int, list[int]]] = {}
 

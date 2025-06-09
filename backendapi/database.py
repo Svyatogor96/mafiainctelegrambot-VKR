@@ -10,10 +10,10 @@ from sqlalchemy import select, delete, func
 import bot.bot
 from config import GlobalSettings
 import logging
-from database.model import *
+from backendapi.model import *
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from database.model import CPerson
+from backendapi.model import CPerson
 from integration.bitrix import BitrixLeadAdd
 
 # engine = create_engine(url=settings.DATABASE_URL(), echo=True)

@@ -11,7 +11,7 @@ from aiogram.filters import StateFilter, Command
 from bot.callbacks import RegistrationCallback
 from bot.keyboards import *
 from bot.states import SMRegistration, UserState
-from database.database import *
+from backendapi.database import *
 
 router = Router(name=__name__)
 

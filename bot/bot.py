@@ -7,12 +7,12 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.types import BotCommand, BotCommandScopeDefault
 from aiogram.enums import ParseMode
-import database.database
+import backendapi.database
 from .routers import router as main_router
 from .middlewares import (DbSessionMiddleware, AuthorizationMiddlewareMessage, AuthorizationMiddlewareCallback,
                           CSchedulerMiddleware, CSUAuthorizationMiddlewareMessage, CSUAuthorizationMiddlewareCallback,
                           CThrottlingMiddlewareMessage, CThrottlingMiddlewareCallback, UpdateAdmins)
-from database.database import *
+from backendapi.database import *
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 import logging
@@ -44,8 +44,8 @@ async def on_startup():
     if GlobalSettings.LOGGING:
         logging.getLogger().info('Бот запущен')
     if GlobalSettings.DROP_DB:
-        await database.database.init_models()
-        await database.database.init_first_data()
+        await backendapi.database.init_models()
+        await backendapi.database.init_first_data()
 
     bot_commands = [
         BotCommand(command="/menu", description="Начальное меню"),

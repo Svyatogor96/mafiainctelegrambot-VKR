@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State
 from bot.callbacks import CSUCallBack
-from database.model import CModerator, CPerson
+from backendapi.model import CModerator, CPerson
 
 
 async def SU_KB_CB_by_dict(cb_data_dict: dict[str, CSUCallBack], size: int = 2) -> InlineKeyboardMarkup:

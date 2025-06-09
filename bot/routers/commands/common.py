@@ -8,7 +8,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 import bot.bot
 from bot.states import UserState
-from database.database import *
+from backendapi.database import *
 
 from subprocess import Popen
 
